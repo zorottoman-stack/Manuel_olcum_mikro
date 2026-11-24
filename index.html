@@ -6,92 +6,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10151f">
 <title>Mikro Ölçüm Merkezi</title>
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- padding:18px;
- background:#10151f;
- color:#eef2f7;
- font-family:Arial,sans-serif;
-}
+body{margin:0;padding:18px;background:#10151f;color:#eef2f7;font-family:Arial,sans-serif}
 .container{max-width:650px;margin:auto}
 h1{font-size:25px;margin-bottom:5px}
 h3{margin-top:0}
 .sub,.small{color:#9ca9bb;font-size:14px}
-.card{
- background:#1b2432;
- border:1px solid #303d50;
- border-radius:14px;
- padding:16px;
- margin:15px 0;
-}
-button,.upload{
- border:0;
- border-radius:10px;
- padding:13px 16px;
- font-weight:bold;
- font-size:15px;
- cursor:pointer;
-}
+.card{background:#1b2432;border:1px solid #303d50;border-radius:14px;padding:16px;margin:15px 0}
+button,.upload{border:0;border-radius:10px;padding:13px 16px;font-weight:bold;font-size:15px;cursor:pointer}
 button{background:#287bda;color:white}
 button:disabled{opacity:.4}
-.upload{
- display:block;
- background:#34445b;
- text-align:center;
- color:white;
-}
+.upload{display:block;background:#34445b;text-align:center;color:white}
 input[type=file]{display:none}
-.field{
- width:100%;
- padding:13px;
- margin:8px 0 15px;
- border-radius:8px;
- border:1px solid #45536a;
- background:#111a27;
- color:white;
- font-size:17px;
-}
-#voice{
- width:100%;
- padding:20px;
- font-size:18px;
- background:#16865d;
-}
+.field{width:100%;padding:13px;margin:8px 0 15px;border-radius:8px;border:1px solid #45536a;background:#111a27;color:white;font-size:17px}
+#voice{width:100%;padding:20px;font-size:18px;background:#16865d}
 #voice.listening{background:#bd493d}
-.grid{
- display:grid;
- grid-template-columns:75px 1fr 55px;
- gap:9px;
- align-items:center;
- margin:10px 0;
-}
-.grid input{
- width:100%;
- padding:12px;
- border-radius:8px;
- border:1px solid #45536a;
- background:#111a27;
- color:white;
- font-size:17px;
-}
+.grid{display:grid;grid-template-columns:75px 1fr 55px;gap:9px;align-items:center;margin:10px 0}
+.grid input{width:100%;padding:12px;border-radius:8px;border:1px solid #45536a;background:#111a27;color:white;font-size:17px}
 .code{font-weight:bold}
-.status{
- color:#9ca9bb;
- font-size:14px;
- line-height:1.6;
-}
+.status{color:#9ca9bb;font-size:14px;line-height:1.6}
 .success{color:#54d99b}
 .danger{color:#ff9288}
 .actions{display:flex;gap:9px;flex-wrap:wrap}
 .actions button{flex:1}
 </style>
 </head>
-
 <body>
 <div class="container">
 
@@ -100,23 +41,17 @@ input[type=file]{display:none}
 
 <div class="card">
 <h3>1. Excel raporunu yükle</h3>
-<label class="upload" for="file">
-📁 Excel dosyası seç (.xls / .xlsx)
-</label>
+<label class="upload" for="file">📁 Excel dosyası seç (.xls / .xlsx)</label>
 <input id="file" type="file" accept=".xls,.xlsx">
 <p id="fileStatus" class="status">Henüz dosya seçilmedi.</p>
 </div>
 
 <div class="card">
 <h3>2. Rapor bilgileri</h3>
-
 <label for="serialNumber">Seri numarası</label>
-<input id="serialNumber" class="field"
- type="text" placeholder="Motor seri numarasını gir">
-
+<input id="serialNumber" class="field" type="text" placeholder="Motor seri numarasını gir">
 <label for="reportDate">Rapor tarihi</label>
 <input id="reportDate" class="field" type="date">
-
 <p class="small">Seri numarası ve tarih indirilen rapora aktarılır.</p>
 </div>
 
@@ -144,10 +79,7 @@ input[type=file]{display:none}
 
 <div class="card">
 <h3>Bilgilendirme</h3>
-<p class="status">
-Veriler tarayıcında işlenir. Sunucuya gönderilmez.
-Orijinal yüklediğin dosya değiştirilmez.
-</p>
+<p class="status">Veriler tarayıcında işlenir. Sunucuya gönderilmez. Orijinal yüklediğin dosya değiştirilmez.</p>
 </div>
 
 </div>
@@ -185,8 +117,7 @@ function render(){
 
 function setStatus(message,success=true){
  $("voiceStatus").textContent=message;
- $("voiceStatus").className=
-  "status "+(success?"success":"danger");
+ $("voiceStatus").className="status "+(success?"success":"danger");
 }
 
 function saveValue(code,value){
@@ -195,20 +126,13 @@ function saveValue(code,value){
 
  const cell=item[1];
  const old=sheet[cell]?{...sheet[cell]}:null;
-
  history.push({cell,old,code,value});
 
- sheet[cell]={
-  t:"n",
-  v:Number(value)
- };
-
+ sheet[cell]={t:"n",v:Number(value)};
  $("v_"+code).value=String(value).replace(".",",");
 
  $("lastAction").innerHTML=
-  `<span class="success">✓ ${code}: ${
-   String(value).replace(".",",")
-  } kaydedildi.</span>`;
+  `<span class="success">✓ ${code}: ${String(value).replace(".",",")} kaydedildi.</span>`;
 
  $("undo").disabled=false;
  return true;
@@ -216,40 +140,28 @@ function saveValue(code,value){
 
 function manualSave(code,value){
  if(!workbook)return;
-
  const normalized=value.trim().replace(",",".");
  if(normalized==="" || !Number.isFinite(Number(normalized))){
   setStatus("Geçerli bir sayı gir.",false);
   return;
  }
-
  saveValue(code,normalized);
 }
 
 function dateToInput(value){
  if(!value)return "";
-
  if(typeof value==="number"){
   const d=XLSX.SSF.parse_date_code(value);
   if(d){
-   return String(d.y).padStart(4,"0")+"-"+
-    String(d.m).padStart(2,"0")+"-"+
-    String(d.d).padStart(2,"0");
+   return String(d.y).padStart(4,"0")+"-"+String(d.m).padStart(2,"0")+"-"+String(d.d).padStart(2,"0");
   }
  }
-
  if(value instanceof Date && !isNaN(value)){
-  return value.getFullYear()+"-"+
-   String(value.getMonth()+1).padStart(2,"0")+"-"+
-   String(value.getDate()).padStart(2,"0");
+  return value.getFullYear()+"-"+String(value.getMonth()+1).padStart(2,"0")+"-"+String(value.getDate()).padStart(2,"0");
  }
-
  const d=new Date(value);
  if(isNaN(d))return "";
-
- return d.getFullYear()+"-"+
-  String(d.getMonth()+1).padStart(2,"0")+"-"+
-  String(d.getDate()).padStart(2,"0");
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 
 function applyReportInfo(){
@@ -263,10 +175,7 @@ function applyReportInfo(){
  // Tarih: F1
 
  if(serial){
-  sheet["F11"]={
-   t:"s",
-   v:serial
-  };
+  sheet["F11"]={t:"s",v:serial};
  }
 
  if(date){
@@ -277,12 +186,7 @@ function applyReportInfo(){
    Number(parts[2]),
    12,0,0
   );
-
-  sheet["F1"]={
-   t:"d",
-   v:excelDate,
-   z:"dd.mm.yyyy"
-  };
+  sheet["F1"]={t:"d",v:excelDate,z:"dd.mm.yyyy"};
  }
 }
 
@@ -300,13 +204,10 @@ $("file").addEventListener("change",async e=>{
   });
 
   const found=workbook.SheetNames.find(n=>
-   n.trim().toLocaleUpperCase("tr-TR")===
-   "KGY ÖLÇÜM RAPORU"
+   n.trim().toLocaleUpperCase("tr-TR")==="KGY ÖLÇÜM RAPORU"
   );
 
-  sheet=workbook.Sheets[
-   found||workbook.SheetNames[0]
-  ];
+  sheet=workbook.Sheets[found||workbook.SheetNames[0]];
 
   history=[];
   render();
@@ -319,20 +220,12 @@ $("file").addEventListener("change",async e=>{
   });
 
   const serial=sheet["F11"]?.v;
-  if(serial!==undefined){
-   $("serialNumber").value=String(serial);
-  }else{
-   $("serialNumber").value="";
-  }
+  $("serialNumber").value=serial!==undefined?String(serial):"";
 
   const date=sheet["F1"]?.v;
-  $("reportDate").value=
-   dateToInput(date)||new Date().toISOString().slice(0,10);
+  $("reportDate").value=dateToInput(date)||new Date().toISOString().slice(0,10);
 
-  $("fileStatus").textContent=
-   "✓ "+file.name+" yüklendi. Sayfa: "+
-   (found||workbook.SheetNames[0]);
-
+  $("fileStatus").textContent="✓ "+file.name+" yüklendi. Sayfa: "+(found||workbook.SheetNames[0]);
   $("fileStatus").className="status success";
   $("voice").disabled=false;
   $("download").disabled=false;
@@ -340,8 +233,7 @@ $("file").addEventListener("change",async e=>{
   setStatus("Ölçüm girişine hazır.");
 
  }catch(err){
-  $("fileStatus").textContent=
-   "Dosya okunamadı: "+err.message;
+  $("fileStatus").textContent="Dosya okunamadı: "+err.message;
   $("fileStatus").className="status danger";
  }
 });
@@ -350,20 +242,13 @@ $("undo").onclick=()=>{
  const last=history.pop();
  if(!last)return;
 
- if(last.old){
-  sheet[last.cell]=last.old;
- }else{
-  delete sheet[last.cell];
- }
+ if(last.old)sheet[last.cell]=last.old;
+ else delete sheet[last.cell];
 
  const input=$("v_"+last.code);
- if(input){
-  input.value=last.old?.v??"";
- }
+ if(input)input.value=last.old?.v??"";
 
- $("lastAction").textContent=
-  "Son işlem geri alındı: "+last.code;
-
+ $("lastAction").textContent="Son işlem geri alındı: "+last.code;
  $("undo").disabled=history.length===0;
 };
 
@@ -387,19 +272,22 @@ $("download").onclick=()=>{
   const a=document.createElement("a");
 
   a.href=url;
-  a.download="Mikro_Olcum_Raporu.xlsx";
+
+  // Dosya adı seri numarasından oluşturulur.
+  const serial=$("serialNumber").value.trim();
+  const safeSerial=serial.replace(/[\\/:*?"<>|]/g,"_");
+  a.download=(safeSerial||"Mikro_Olcum_Raporu")+".xlsx";
+
   document.body.appendChild(a);
   a.click();
   a.remove();
 
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 
-  $("lastAction").textContent=
-   "Excel raporu indirildi.";
+  $("lastAction").textContent="Excel raporu indirildi: "+a.download;
 
  }catch(err){
-  $("lastAction").textContent=
-   "Excel oluşturulamadı: "+err.message;
+  $("lastAction").textContent="Excel oluşturulamadı: "+err.message;
  }
 };
 
@@ -428,11 +316,7 @@ function processCommand(text){
 
  const code=match[1];
  const position=normalized.indexOf(code)+code.length;
-
- const numberText=text.substring(position)
-  .trim()
-  .replace(/^[\s,:-]+/,"");
-
+ const numberText=text.substring(position).trim().replace(/^[\s,:-]+/,"");
  const value=parseNumber(numberText);
 
  if(value===null){
@@ -441,23 +325,14 @@ function processCommand(text){
  }
 
  saveValue(code,String(value));
-
- setStatus(
-  code+" değeri "+String(value).replace(".",",")+
-  " olarak kaydedildi."
- );
+ setStatus(code+" değeri "+String(value).replace(".",",")+" olarak kaydedildi.");
 }
 
 $("voice").onclick=()=>{
- const SpeechRecognition=
-  window.SpeechRecognition||
-  window.webkitSpeechRecognition;
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
  if(!SpeechRecognition){
-  setStatus(
-   "Bu tarayıcı sesli tanımayı desteklemiyor. Chrome deneyebilirsin.",
-   false
-  );
+  setStatus("Bu tarayıcı sesli tanımayı desteklemiyor. Chrome deneyebilirsin.",false);
   return;
  }
 
@@ -494,11 +369,8 @@ $("voice").onclick=()=>{
   $("voice").classList.remove("listening");
  };
 
- try{
-  recognition.start();
- }catch(e){
-  setStatus("Mikrofon başlatılamadı.",false);
- }
+ try{recognition.start();}
+ catch(e){setStatus("Mikrofon başlatılamadı.",false);}
 };
 
 render();
